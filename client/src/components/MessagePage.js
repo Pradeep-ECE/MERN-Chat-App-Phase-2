@@ -194,7 +194,6 @@ const MessagePage = () => {
                                 msg?.imageUrl && (
                                   <img 
                                     src={msg?.imageUrl}
-                                    alt='profile'
                                     className='w-full h-full object-scale-down'
                                   />
                                 )
