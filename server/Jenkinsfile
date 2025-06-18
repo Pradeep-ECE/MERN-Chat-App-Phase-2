@@ -1,38 +1,40 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = "pradeepm1208/new_practice:backend"
-    }
-
     stages {
         stage('Clone Repo') {
             steps {
-                git branch: 'main', url: 'https://github.com/Pradeep-ECE/MERN-Chat-App-Phase-2.git'
+                git 'https://github.com/Pradeep-ECE/MERN-Chat-App-Phase-2.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                dir('server') {
+                    sh 'npm install'
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                echo 'Skipping tests...'
+                dir('server') {
+                    sh 'npm test || true' // or comment this if you don't have tests
+                }
             }
         }
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                dir('server') {
+                    sh 'docker build -t chat-backend .'
+                }
             }
         }
 
         stage('Docker Run') {
             steps {
-                sh 'docker run -d -p 5000:5000 --name chat-app $IMAGE_NAME'
+                sh 'docker run -d -p 5000:5000 chat-backend'
             }
         }
     }
