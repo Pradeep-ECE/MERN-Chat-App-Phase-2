@@ -6,7 +6,7 @@ pipeline {
     steps {
         git branch: 'main', url: 'https://github.com/Pradeep-ECE/MERN-Chat-App-Phase-2.git'
     }
-}
+
         }
 
         stage('Install Dependencies') {
@@ -40,3 +40,4 @@ pipeline {
         }
     }
 }
+
