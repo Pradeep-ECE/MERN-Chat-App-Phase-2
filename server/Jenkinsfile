@@ -1,12 +1,15 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Clone Repo') {
-    steps {
-        git branch: 'main', url: 'https://github.com/Pradeep-ECE/MERN-Chat-App-Phase-2.git'
+    tools {
+        nodejs "Node20"
     }
 
+    stages {
+        stage('Clone Repo') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Pradeep-ECE/MERN-Chat-App-Phase-2.git'
+            }
         }
 
         stage('Install Dependencies') {
@@ -20,7 +23,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 dir('server') {
-                    sh 'npm test || true' // or comment this if you don't have tests
+                    sh 'npm test || true'
                 }
             }
         }
@@ -40,4 +43,3 @@ pipeline {
         }
     }
 }
-
