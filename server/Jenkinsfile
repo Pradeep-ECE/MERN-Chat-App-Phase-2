@@ -35,14 +35,14 @@ pipeline {
         stage('Docker Build') {
             steps {
                 dir('server') {
-                    sh '/opt/homebrew/bin/docker build -t chat-backend .'
+                    sh 'docker build -t chat-backend .'
                 }
             }
         }
 
         stage('Docker Run') {
             steps {
-                sh '/opt/homebrew/bin/docker run -d -p 4000:4000 chat-backend'
+                sh 'docker run -d -p 4000:4000 chat-backend'
             }
         }
     }
