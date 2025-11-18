@@ -15,7 +15,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 dir('server') {
-                    'npm install'
+                    bat 'npm install'
                 }
             }
         }
@@ -23,7 +23,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 dir('server') {
-                    'npm test || true'
+                    bat 'npm test || exit 0'
                 }
             }
         }
@@ -31,14 +31,14 @@ pipeline {
         stage('Docker Build') {
             steps {
                 dir('server') {
-                    docker build -t chat-backend .'
+                    bat 'docker build -t chat-backend .'
                 }
             }
         }
 
         stage('Docker Run') {
             steps {
-                'docker run -d -p 4000:4000 chat-backend'
+                bat 'docker run -d -p 4000:4000 chat-backend'
             }
         }
     }
