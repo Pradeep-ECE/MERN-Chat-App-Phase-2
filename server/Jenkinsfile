@@ -5,6 +5,10 @@ pipeline {
         nodejs "Node20"
     }
 
+    environment {
+        DOCKER_HOST = "unix:///var/run/docker.sock"
+    }
+
     stages {
         stage('Clone Repo') {
             steps {
@@ -15,7 +19,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 dir('server') {
-                    bat "npm install"
+                    sh 'npm install'
                 }
             }
         }
@@ -23,7 +27,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 dir('server') {
-                    bat "cmd /c npm test || exit 0"
+                    sh 'npm test || true'
                 }
             }
         }
@@ -31,14 +35,14 @@ pipeline {
         stage('Docker Build') {
             steps {
                 dir('server') {
-                    bat "docker build -t chat-backend ."
+                    sh '/opt/homebrew/bin/docker build -t chat-backend .'
                 }
             }
         }
 
         stage('Docker Run') {
             steps {
-                bat "docker run -d -p 4000:4000 chat-backend"
+                sh '/opt/homebrew/bin/docker run -d -p 4000:4000 chat-backend'
             }
         }
     }
