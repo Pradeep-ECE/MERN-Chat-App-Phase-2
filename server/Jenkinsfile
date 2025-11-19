@@ -1,11 +1,12 @@
 pipeline {
     agent any
- 
+
     tools {
         nodejs "Node20"
     }
 
     environment {
+        PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
         DOCKER_HOST = "unix:///var/run/docker.sock"
     }
 
@@ -35,6 +36,8 @@ pipeline {
         stage('Docker Build') {
             steps {
                 dir('server') {
+                    sh 'which docker'
+                    sh 'docker -v'
                     sh 'docker build -t chat-backend .'
                 }
             }
@@ -42,7 +45,8 @@ pipeline {
 
         stage('Docker Run') {
             steps {
-                sh 'docker run -d -p 4000:4000 chat-backend'
+                sh 'docker rm -f chat-backend || true'
+                sh 'docker run -d -p 4000:4000 --name chat-backend chat-backend'
             }
         }
     }
