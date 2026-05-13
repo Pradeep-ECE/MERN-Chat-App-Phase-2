@@ -3,7 +3,7 @@ require('dotenv').config();
 
 // Ensure JWT_SECRET_KEY is defined
 if (!process.env.JWT_SECRET_KEY) {
-    console.error("Error: JWT_SECRET_KEY is not defined in the environment variables.");
+    console.error("Error: JWT_SECRET_KEY is not defined in the environment variables.",process.env.JWT_SECRET_KEY);
     process.exit(1); // Exit the process if the key is missing
 }
 
